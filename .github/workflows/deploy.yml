@@ -8,7 +8,7 @@ on:
 jobs:
   deploy:
     name: deploy
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     steps:
       - name: Checkout to repo
@@ -25,11 +25,11 @@ jobs:
       - name: Configure serverless authentication
         run: sls config credentials --provider aws --key ${{ secrets.AWS_ACCESS_KEY_ID }} --secret ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-      - name: Create env file
-        run: |
-          cat > env.yml << EOF
-          ${{ secrets.ENV }}
-          EOF
+      # - name: Create env file
+      #   run: |
+      #     cat > env.yml << EOF
+      #     ${{ secrets.ENV }}
+      #     EOF
 
       - name: Install npm dependencies
         run: npm ci
