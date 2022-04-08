@@ -1,5 +1,5 @@
-org: romariomelo
-app: aws-s3-event-lambda
+#org: romariomelo
+#app: aws-s3-event-lambda
 service: aws-s3-event-lambda
 
 frameworkVersion: '3'
