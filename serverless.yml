@@ -1,0 +1,33 @@
+org: romariomelo
+app: aws-s3-event-lambda
+service: aws-s3-event-lambda
+
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  region: us-east-2
+  runtime: nodejs14.x
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - s3:*
+          Resource: 'arn:aws:s3:::test-omega-rom/*'
+
+functions:
+  unzip-file-s3:
+    name: unzip-file-s3
+    description: Unzip files in S3
+    runtime: nodejs14.x
+    handler: src/unzip-file-s3.handler
+    memorySize: 1024
+    events:
+      - s3:
+          bucket: test-omega-rom
+          event: s3:ObjectCreated:*
+          rules:
+            - prefix: uploads/
+            - suffix: .zip
+          existing: true
