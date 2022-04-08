@@ -26,7 +26,6 @@ module.exports.handler = async (event) => {
     const files = fileZipStream.pipe(unzipper.Parse({ forceStream: true }));
 
     for await (const entry of files) {
-      console.log(entry.path);
       const fileName = entry.path;
       const type = entry.type;
       const size = entry.vars.uncompressedSize;
