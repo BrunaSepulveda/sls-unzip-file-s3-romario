@@ -16,13 +16,13 @@ module.exports.handler = async (event) => {
     event.Records[0].s3.object.key.replace(/\+/g, ' ')
   );
 
-  const params = {
+  const paramsGet = {
     Bucket: Bucket.name,
     Key: fileKey,
   };
 
   try {
-    const fileZipStream = S3.getObject(params).createReadStream();
+    const fileZipStream = S3.getObject(paramsGet).createReadStream();
     const files = fileZipStream.pipe(unzipper.Parse({ forceStream: true }));
 
     for await (const entry of files) {
@@ -31,7 +31,7 @@ module.exports.handler = async (event) => {
       const size = entry.vars.uncompressedSize;
 
       if (type.match(/file/gi)) {
-        const params = {
+        const paramsPut = {
           Bucket: Bucket.name,
           Key: `documentos/${fileName}`,
           Body: entry.on('finish', () => {
@@ -40,7 +40,7 @@ module.exports.handler = async (event) => {
           ContentLength: size,
         };
 
-        await S3.upload(params).promise();
+        await S3.upload(paramsPut).promise();
       } else {
         entry.autodrain();
       }
