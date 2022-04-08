@@ -1,5 +1,5 @@
-const AWS = require('aws-sdk');
 const unzipper = require('unzipper');
+const AWS = require('aws-sdk');
 
 const Bucket = {
   name: 'test-omega-rom',
